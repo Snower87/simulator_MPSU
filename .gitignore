@@ -1,0 +1,5 @@
+#disable all temp files C++ Builder 6
+*.~bpr
+*.tds
+*.~cpp
+*.~h

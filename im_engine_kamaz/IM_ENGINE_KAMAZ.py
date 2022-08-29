@@ -1,5 +1,10 @@
+from ast import If
+from ctypes import sizeof
+from time import time
 from PyQt5 import QtCore, QtWidgets 
-import sys 
+from serial.tools.list_ports_windows import comports
+import sys, time
+import serial
 
 crc16Table = [
   0x0000, 0xC1C0, 0x81C1, 0x4001, 0x01C3, 0xC003, 0x8002, 0x41C2,
@@ -49,13 +54,55 @@ def CRC16_ver(message, len_message):
     crc = reversCRC(crc)
     return crc
 
+port = serial.Serial()
+ports = []
+for i in comports():
+    ports.append(i.device)
+    print(i.device)
+
 my_list = [0x05, 0x66]
 print(CRC16_ver(my_list, 2))
 print(reversCRC(33482))
 
+adr = 0x01
+com = 0x01
+wbuf = bytes([adr, com])
+wbuf += bytes([0x0F, 0x50])
+#port.port = ports[1]
+port.port = 'COM2'
+port.baudrate = 57600
+port.bytesize = 8
+port.stopbits = 1
+port.parity = 'N'
+#port.timeout = 0.01
+port.close()
+port.open()
+
+count = 0
+zapusk = True
+#while (zapusk):
+#    if (port.in_waiting):
+#        rbuf = port.read(5)
+#        print(rbuf)
+#        count += 1
+#        if (count > 1000):
+#            zapusk = False
+
+port.write((wbuf))
+
+for i in range(1, 10):
+    #port.write(wbuf)
+    if (port.inWaiting()):
+        #rbuf = port.read(5)
+        rbuf = port.read(5)
+        #print(rbuf.decode('cp1251'))
+        print(rbuf)
+    time.sleep(0.01)
+port.close()
+
 app = QtWidgets.QApplication(sys.argv) 
 window = QtWidgets.QWidget() 
-window.setWindowTitle("IM_ENGINE_KAMAZ, ver.01") 
+window.setWindowTitle("IM_ENGINE_KAMAZ, ver.02") 
 window.resize(300, 70) 
 label = QtWidgets.QLabel("<center>Имитатор для испытания двигателей Камаз</center>") 
 btnQuit = QtWidgets.QPushButton("Выход") 

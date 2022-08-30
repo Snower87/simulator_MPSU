@@ -143,3 +143,15 @@ if (NKey == 0x8) Key = 0x8; //обработка по нажатию клавиши BackSpace
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TForm1::B_SHOW_RXTXClick(TObject *Sender)
+{
+M_OUT_DATA->Visible = true;
+MError->Visible = true;
+M_IN_DATA->Visible = true;
+L_TX_DATA->Visible = true;
+L_RX_DATA->Visible = true;
+L_ERROR_DATA->Visible = true;
+Form1->Width = 1600;
+}
+//---------------------------------------------------------------------------
+

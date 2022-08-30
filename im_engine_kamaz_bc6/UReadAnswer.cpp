@@ -26,7 +26,7 @@ void READ_ANSWER ()
    double ValueAnParam = 0;    //инициализация выводимого значения аналогового параметра
    AnsiString StrValueAnDouble = ""; //строка с выводимым значением аналоговым параметра типа double
 
-
+/*
    mlBData = IN_INF_KPA1[2]; //Частота вращения ротора ГПЧ-200(СУЭ), мл. б., D_BSPS+0, {ЦМР = 1об/мин, диапазон 0...4000 об/мин}
    stBData = IN_INF_KPA1[3]; //Частота вращения ротора ГПЧ-200(СУЭ), ст. б., D_BSPS+1
    ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 1.0;
@@ -146,7 +146,7 @@ void READ_ANSWER ()
    if (BData & 0x04) {Form1->D_BSPS15->State[5] = cbChecked;} else {Form1->D_BSPS15->State[5] = cbUnchecked;}
    if (BData & 0x02) {Form1->D_BSPS15->State[6] = cbChecked;} else {Form1->D_BSPS15->State[6] = cbUnchecked;}
    if (BData & 0x01) {Form1->D_BSPS15->State[7] = cbChecked;} else {Form1->D_BSPS15->State[7] = cbUnchecked;}
-
+*/
 
    //уходя, выключай свет!
    BData = 0;

@@ -3,3 +3,6 @@
 *.tds
 *.~cpp
 *.~h
+*.exe
+*.~ddp
+*.~dfm

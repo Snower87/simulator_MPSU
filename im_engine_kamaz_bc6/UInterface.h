@@ -28,7 +28,7 @@ __published:	// IDE-managed Components
         TComboBox *COMPORT;
         TCheckListBox *CheckListBoxChanel1;
         TLabel *LZPRVU_BYTE4_1;
-        TEdit *E_UST_POWER;
+        TEdit *E_UST_PROMCONTUR;
         TUpDown *UpDown1;
         TCheckBox *CBSAVE;
         TLabel *LSAVE;
@@ -49,7 +49,7 @@ __published:	// IDE-managed Components
         TGroupBox *GB_RPD_BYTE61;
         TCheckListBox *CB_RPD_BYTE61;
         TGroupBox *GB_RPD_BYTE62;
-        TCheckListBox *CheckListBox1;
+        TCheckListBox *CB_RPD_BYTE62;
         TTabSheet *OTV_KPSN_02h;
         TGroupBox *GB_PCH1_BYTE33;
         TCheckListBox *CB_PCH1_BYTE33;
@@ -101,19 +101,19 @@ __published:	// IDE-managed Components
         TLabel *LabelDisableCommunication;
         TLabel *LZPRVU_BYTE6_1;
         TLabel *LZPRVU_BYTE6_2;
-        TEdit *Edit1;
+        TEdit *E_OGR_ZAR_AKB;
         TUpDown *UpDown2;
         TLabel *LZPRVU_BYTE8_1;
         TLabel *LZPRVU_BYTE8_2;
-        TEdit *Edit2;
+        TEdit *E_OGR_PRIR_J_ZAR_AKB;
         TUpDown *UpDown3;
         TLabel *LZPRVU_BYTE9_1;
         TLabel *LZPRVU_BYTE9_2;
-        TEdit *Edit3;
+        TEdit *E_OGR_J_ZAR_AKB;
         TUpDown *UpDown4;
         TLabel *LZPRVU_BYTE11_1;
         TLabel *LZPRVU_BYTE11_2;
-        TEdit *Edit4;
+        TEdit *E_OGR_J_PROMCONTUR;
         TUpDown *UpDown5;
         TTabSheet *DIAGN_PCH_02h;
         TEdit *EPCH2_BYTE49;
@@ -169,9 +169,13 @@ __published:	// IDE-managed Components
         void __fastcall BExitClick(TObject *Sender);
         void __fastcall BStartClick(TObject *Sender);
         void __fastcall FormCreate(TObject *Sender);
-        void __fastcall E_UST_POWERChange(TObject *Sender);
-        void __fastcall E_UST_POWERKeyPress(TObject *Sender, char &Key);
+        void __fastcall E_UST_PROMCONTURChange(TObject *Sender);
+        void __fastcall E_UST_PROMCONTURKeyPress(TObject *Sender, char &Key);
         void __fastcall B_SHOW_RXTXClick(TObject *Sender);
+        void __fastcall E_OGR_PRIR_J_ZAR_AKBChange(TObject *Sender);
+        void __fastcall E_OGR_J_ZAR_AKBChange(TObject *Sender);
+        void __fastcall E_OGR_J_PROMCONTURChange(TObject *Sender);
+        void __fastcall E_OGR_ZAR_AKBChange(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TForm1(TComponent* Owner);

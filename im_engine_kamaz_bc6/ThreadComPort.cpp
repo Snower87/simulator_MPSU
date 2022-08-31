@@ -116,8 +116,19 @@ void __fastcall ThreadComPort::Execute()
         unsigned char ByteAnlgComm = 0x00; //инициализация байта аналоговых команд
 
         if  (Form1->CBSAVE->Checked == true) {
-             OUT_INF_KPA1[3]=  (StrToInt(Form1->E_UST_POWER->Text) & 0x00FF) / 1;         // б4. уставка по напряжению, мл.б.
-             OUT_INF_KPA1[4]= ((StrToInt(Form1->E_UST_POWER->Text) & 0xFF00) >> 8 ) / 1;  // б4. уставка по напряжению, ст.б.
+             OUT_INF_KPA1[3]=  (StrToInt(Form1->E_UST_PROMCONTUR->Text) & 0x00FF) / 1;            // б4. уставка по напряжению в промконтуре, мл.б.
+             OUT_INF_KPA1[4]= ((StrToInt(Form1->E_UST_PROMCONTUR->Text) & 0xFF00) >> 8 ) / 1;     // б5. уставка по напряжению в промконтуре, ст.б.
+
+             OUT_INF_KPA1[5]=  (StrToInt(Form1->E_OGR_ZAR_AKB->Text) & 0x00FF) / 1;               // б6. ограничение по напряжению заряда АКБ, мл.б.
+             OUT_INF_KPA1[6]= ((StrToInt(Form1->E_OGR_ZAR_AKB->Text) & 0xFF00) >> 8 ) / 1;        // б7. ограничение по напряжению заряда АКБ, ст.б.
+
+             OUT_INF_KPA1[7]=  StrToInt(Form1->E_OGR_PRIR_J_ZAR_AKB->Text) / 1;                   // б8. ограничение по приращению тока заряда АКБ
+
+             OUT_INF_KPA1[8]=  (StrToInt(Form1->E_OGR_J_ZAR_AKB->Text) & 0x00FF) / 1;             // б9. ограничение по току заряда АКБ, мл.б.
+             OUT_INF_KPA1[9]= ((StrToInt(Form1->E_OGR_J_ZAR_AKB->Text) & 0xFF00) >> 8 ) / 1;      // б10. ограничение по току заряда АКБ, ст.б.
+
+             OUT_INF_KPA1[10]=  (StrToInt(Form1->E_OGR_J_PROMCONTUR->Text) & 0x00FF) / 1;         // б11. ограничение по току промконтура, мл.б.
+             OUT_INF_KPA1[11]= ((StrToInt(Form1->E_OGR_J_PROMCONTUR->Text) & 0xFF00) >> 8 ) / 1;  // б12. ограничение по току промконтура, ст.б.
         }
 
         GCRC=SCalcCRC(OUT_INF_KPA1, 8);
@@ -138,10 +149,12 @@ void __fastcall ThreadComPort::Execute()
         OUT_INF_KPA1[3]=((UCHAR*)(&GCRC))[1];
 
         WRITECOM(OUT_INF_KPA1, 4);
+
+        GCRC = 0; //после подсчета CRC-кода для запроса делаю обнуление параметра
+
+        Application->ProcessMessages();
+        READCOM(IN_INF_KPA1, 90);
     }
-
-
-
 
    Synchronize (Printing);
    count_req++;

@@ -126,15 +126,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 COMPORT->ItemIndex = 1;
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TForm1::E_UST_POWERChange(TObject *Sender)
-{
-if (E_UST_POWER->Text == "") {E_UST_POWER->Text = "0";}
-if (E_UST_POWER->Text.ToInt() > 750) {E_UST_POWER->Text = "750";}
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::E_UST_POWERKeyPress(TObject *Sender, char &Key)
+void __fastcall TForm1::E_UST_PROMCONTURKeyPress(TObject *Sender, char &Key)
 {
 char NKey = Key; //переменная с начальным значением нажатой клавиши
 if(((NKey<48)||(NKey>57))) Key=0; //(c 48(дес.) по 57(дес) это коды клавиш цифр: с 0 по 9)
@@ -152,6 +144,41 @@ L_TX_DATA->Visible = true;
 L_RX_DATA->Visible = true;
 L_ERROR_DATA->Visible = true;
 Form1->Width = 1600;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::E_UST_PROMCONTURChange(TObject *Sender)
+{
+if (E_UST_PROMCONTUR->Text == "") {E_UST_PROMCONTUR->Text = "0";}
+if (E_UST_PROMCONTUR->Text.ToInt() > 750) {E_UST_PROMCONTUR->Text = "750";}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::E_OGR_ZAR_AKBChange(TObject *Sender)
+{
+if (E_OGR_ZAR_AKB->Text == "") {E_OGR_ZAR_AKB->Text = "0";}
+if (E_OGR_ZAR_AKB->Text.ToInt() > 750) {E_OGR_ZAR_AKB->Text = "750";}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::E_OGR_PRIR_J_ZAR_AKBChange(TObject *Sender)
+{
+if (E_OGR_PRIR_J_ZAR_AKB->Text == "") {E_OGR_PRIR_J_ZAR_AKB->Text = "0";}
+if (E_OGR_PRIR_J_ZAR_AKB->Text.ToInt() > 100) {E_OGR_PRIR_J_ZAR_AKB->Text = "100";}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::E_OGR_J_ZAR_AKBChange(TObject *Sender)
+{
+if (E_OGR_J_ZAR_AKB->Text == "") {E_OGR_J_ZAR_AKB->Text = "0";}
+if (E_OGR_J_ZAR_AKB->Text.ToInt() > 500) {E_OGR_J_ZAR_AKB->Text = "500";}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::E_OGR_J_PROMCONTURChange(TObject *Sender)
+{
+if (E_OGR_J_PROMCONTUR->Text == "") {E_OGR_J_PROMCONTUR->Text = "0";}
+if (E_OGR_J_PROMCONTUR->Text.ToInt() > 500) {E_OGR_J_PROMCONTUR->Text = "500";}
 }
 //---------------------------------------------------------------------------
 

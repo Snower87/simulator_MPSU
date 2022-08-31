@@ -1,10 +1,10 @@
 object Form1: TForm1
-  Left = 249
-  Top = 62
+  Left = 282
+  Top = 56
   Width = 1175
   Height = 876
   BiDiMode = bdLeftToRight
-  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 02)'
+  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 03)'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -45,7 +45,7 @@ object Form1: TForm1
     Visible = False
   end
   object L_TX_DATA: TLabel
-    Left = 968
+    Left = 960
     Top = 24
     Width = 127
     Height = 13
@@ -83,7 +83,7 @@ object Form1: TForm1
   object LabelDisableCommunication: TLabel
     Left = 32
     Top = 800
-    Width = 100
+    Width = 94
     Height = 13
     Caption = #1053#1077#1090' '#1089#1074#1103#1079#1080' '#1089' '#1050#1055#1057#1053
   end
@@ -336,7 +336,7 @@ object Form1: TForm1
         Top = 155
         Width = 16
         Height = 24
-        Associate = E_UST_POWER
+        Associate = E_UST_PROMCONTUR
         ArrowKeys = False
         Min = 0
         Max = 990
@@ -368,7 +368,7 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 1
       end
-      object E_UST_POWER: TEdit
+      object E_UST_PROMCONTUR: TEdit
         Left = 192
         Top = 155
         Width = 57
@@ -382,8 +382,8 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 2
         Text = '540'
-        OnChange = E_UST_POWERChange
-        OnKeyPress = E_UST_POWERKeyPress
+        OnChange = E_UST_PROMCONTURChange
+        OnKeyPress = E_UST_PROMCONTURKeyPress
       end
       object CBSAVE: TCheckBox
         Left = 289
@@ -392,7 +392,7 @@ object Form1: TForm1
         Height = 17
         TabOrder = 3
       end
-      object Edit1: TEdit
+      object E_OGR_ZAR_AKB: TEdit
         Left = 192
         Top = 187
         Width = 57
@@ -406,15 +406,15 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 4
         Text = '0'
-        OnChange = E_UST_POWERChange
-        OnKeyPress = E_UST_POWERKeyPress
+        OnChange = E_OGR_ZAR_AKBChange
+        OnKeyPress = E_UST_PROMCONTURKeyPress
       end
       object UpDown2: TUpDown
         Left = 249
         Top = 187
         Width = 16
         Height = 24
-        Associate = Edit1
+        Associate = E_OGR_ZAR_AKB
         ArrowKeys = False
         Min = 0
         Max = 990
@@ -423,7 +423,7 @@ object Form1: TForm1
         Thousands = False
         Wrap = False
       end
-      object Edit2: TEdit
+      object E_OGR_PRIR_J_ZAR_AKB: TEdit
         Left = 192
         Top = 219
         Width = 57
@@ -437,15 +437,15 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 6
         Text = '0'
-        OnChange = E_UST_POWERChange
-        OnKeyPress = E_UST_POWERKeyPress
+        OnChange = E_OGR_PRIR_J_ZAR_AKBChange
+        OnKeyPress = E_UST_PROMCONTURKeyPress
       end
       object UpDown3: TUpDown
         Left = 249
         Top = 219
         Width = 16
         Height = 24
-        Associate = Edit2
+        Associate = E_OGR_PRIR_J_ZAR_AKB
         ArrowKeys = False
         Min = 0
         Max = 990
@@ -454,7 +454,7 @@ object Form1: TForm1
         Thousands = False
         Wrap = False
       end
-      object Edit3: TEdit
+      object E_OGR_J_ZAR_AKB: TEdit
         Left = 192
         Top = 251
         Width = 57
@@ -468,15 +468,15 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 8
         Text = '0'
-        OnChange = E_UST_POWERChange
-        OnKeyPress = E_UST_POWERKeyPress
+        OnChange = E_OGR_J_ZAR_AKBChange
+        OnKeyPress = E_UST_PROMCONTURKeyPress
       end
       object UpDown4: TUpDown
         Left = 249
         Top = 251
         Width = 16
         Height = 24
-        Associate = Edit3
+        Associate = E_OGR_J_ZAR_AKB
         ArrowKeys = False
         Min = 0
         Max = 990
@@ -485,7 +485,7 @@ object Form1: TForm1
         Thousands = False
         Wrap = False
       end
-      object Edit4: TEdit
+      object E_OGR_J_PROMCONTUR: TEdit
         Left = 192
         Top = 283
         Width = 57
@@ -499,15 +499,15 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 10
         Text = '0'
-        OnChange = E_UST_POWERChange
-        OnKeyPress = E_UST_POWERKeyPress
+        OnChange = E_OGR_J_PROMCONTURChange
+        OnKeyPress = E_UST_PROMCONTURKeyPress
       end
       object UpDown5: TUpDown
         Left = 249
         Top = 283
         Width = 16
         Height = 24
-        Associate = Edit4
+        Associate = E_OGR_J_PROMCONTUR
         ArrowKeys = False
         Min = 0
         Max = 990
@@ -523,8 +523,8 @@ object Form1: TForm1
     Top = 360
     Width = 1153
     Height = 433
-    ActivePage = OTV_KPSN_01h
-    TabIndex = 0
+    ActivePage = DIAGN_PCH_01h
+    TabIndex = 2
     TabOrder = 8
     object OTV_KPSN_01h: TTabSheet
       Caption = #1054#1090#1074#1077#1090' '#1050#1055#1057#1053'1 ('#1082#1086#1084#1072#1085#1076#1072' 01h)'
@@ -867,7 +867,7 @@ object Form1: TForm1
         Width = 41
         Height = 21
         TabOrder = 8
-        Text = '0'
+        Text = '0,0'
       end
       object EPCH1_BYTE13: TEdit
         Left = 344
@@ -1842,7 +1842,7 @@ object Form1: TForm1
         Height = 129
         Caption = #1044#1080#1072#1075#1085#1086#1089#1090#1080#1082#1072' '#1089#1074#1103#1079#1080' '#1087#1086' '#1052'1 '#1074' 1 '#1094#1080#1082#1083#1077' ('#1073#1072#1081#1090' 62)'
         TabOrder = 3
-        object CheckListBox1: TCheckListBox
+        object CB_RPD_BYTE62: TCheckListBox
           Left = 8
           Top = 16
           Width = 233

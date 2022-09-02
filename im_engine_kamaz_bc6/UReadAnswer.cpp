@@ -7,7 +7,7 @@
 #include "UInterface.h"
 #include "UCOMPortFunc.h"
 
-#define BuffSize1 0x20  //константа для задания длины буфера
+#define BuffSize1 100  //константа для задания длины буфера
 extern unsigned char IN_INF_KPA1[BuffSize1];
 extern unsigned char OUT_INF_KPA1[BuffSize1];
 
@@ -27,6 +27,7 @@ void READ_ANSWER ()
    AnsiString StrValueAnDouble = ""; //строка с выводимым значением аналоговым параметра типа double
 
    //1. Парсинг посылки от КПСН (команда 01h, ПЧ1)
+   if (IN_INF_KPA1[1] == 0x01) {
    mlBData = IN_INF_KPA1[2]; //Fpllout, Вычисленная ФАПЧ частота сети, мл.б. ЦМР = 0,1 Гц, 0..100Гц
    stBData = IN_INF_KPA1[3]; //Fpllout, Вычисленная ФАПЧ частота сети, ст.б.
    ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 0.1;
@@ -220,8 +221,10 @@ void READ_ANSWER ()
    if (BData & 0x04) {Form1->CB_RPD_BYTE62->State[5] = cbChecked;} else {Form1->CB_RPD_BYTE62->State[5] = cbUnchecked;}
    if (BData & 0x02) {Form1->CB_RPD_BYTE62->State[6] = cbChecked;} else {Form1->CB_RPD_BYTE62->State[6] = cbUnchecked;}
    if (BData & 0x01) {Form1->CB_RPD_BYTE62->State[7] = cbChecked;} else {Form1->CB_RPD_BYTE62->State[7] = cbUnchecked;}
+   }
 
    //2. Парсинг посылки от КПСН (команда 02h, ПЧ2)
+   if (IN_INF_KPA1[1] == 0x02) {
    mlBData = IN_INF_KPA1[2]; //Fpllout, Вычисленная ФАПЧ частота сети, мл.б. ЦМР = 0,1 Гц, 0..100Гц
    stBData = IN_INF_KPA1[3]; //Fpllout, Вычисленная ФАПЧ частота сети, ст.б.
    ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 0.1;
@@ -459,127 +462,71 @@ void READ_ANSWER ()
    if (BData & 0x02) {Form1->CB_PCH2_BYTE64->State[6] = cbChecked;} else {Form1->CB_PCH2_BYTE64->State[6] = cbUnchecked;}
    if (BData & 0x01) {Form1->CB_PCH2_BYTE64->State[7] = cbChecked;} else {Form1->CB_PCH2_BYTE64->State[7] = cbUnchecked;}
 
-/*
-   mlBData = IN_INF_KPA1[2]; //Частота вращения ротора ГПЧ-200(СУЭ), мл. б., D_BSPS+0, {ЦМР = 1об/мин, диапазон 0...4000 об/мин}
-   stBData = IN_INF_KPA1[3]; //Частота вращения ротора ГПЧ-200(СУЭ), ст. б., D_BSPS+1
-   ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 1.0;
-   Form1->ED_BSPS0->Text =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
+   mlBData = IN_INF_KPA1[64]; //Код неисправности 1 (БУК1)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK1_KEY1->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
-   mlBData = IN_INF_KPA1[4]; //Мощность на валу ГПЧ-200(СУЭ), мл. б., D_BSPS+2, {ЦМР = 1кВт, диапазон 0...500кВт}
-   stBData = IN_INF_KPA1[5]; //Мощность на валу ГПЧ-200(СУЭ), ст. б., D_BSPS+3
-   ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 1.0;
-   Form1->ED_BSPS2->Text =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
+   mlBData = IN_INF_KPA1[65]; //Код неисправности 2 (БУК1)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK1_KEY2->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
-   BData = IN_INF_KPA1[6]; //Действующее значение тока фазы A(инвертор), D_BSPS+4, {ЦМР = 2А, диапазон 0...500А}
-   ValueAnParam = (unsigned char)BData * 2.0;
-   Form1->ED_BSPS4->Text =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
+   mlBData = IN_INF_KPA1[66]; //Код неисправности 3 (БУК1)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK1_KEY3->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
-   BData = IN_INF_KPA1[7]; //Действующее значение тока фазы B(инвертор), D_BSPS+5, {ЦМР = 2А, диапазон 0...500А}
-   ValueAnParam = (unsigned char)BData * 2.0;
-   Form1->ED_BSPS5->Text =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
+   mlBData = IN_INF_KPA1[67]; //Код неисправности 4 (БУК1)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK1_KEY4->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
-   BData = IN_INF_KPA1[8]; //Действующее значение тока фазы C(инвертор), D_BSPS+6, {ЦМР = 2А, диапазон 0...500А}
-   ValueAnParam = (unsigned char)BData * 2.0;
-   Form1->ED_BSPS6->Text =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
+   mlBData = IN_INF_KPA1[68]; //Код неисправности 5 (БУК1)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK1_KEY5->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
-   BData = IN_INF_KPA1[9]; //Частота тока Инвертора (СУЭ), D_BSPS+7, {ЦМР = 0,5Гц, диапазон 0...60Гц}
-   ValueAnParam = (unsigned char)BData * 0.5;
-   Form1->ED_BSPS7->Text =  StrValueAnDouble.FormatFloat("#0.0#",ValueAnParam);
+   mlBData = IN_INF_KPA1[69]; //Код неисправности 6 (БУК1)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK1_KEY6->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
+   mlBData = IN_INF_KPA1[70]; //Код неисправности 7 (БУК1)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK1_KEY7->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
-   BData = IN_INF_KPA1[10]; //Диагностика ПЧ-СГ (выпрямитель), D_BSPS+8
-
-   if (BData & 0x80) {Form1->D_BSPS8->State[0] = cbChecked;} else {Form1->D_BSPS8->State[0] = cbUnchecked;}
-   if (BData & 0x40) {Form1->D_BSPS8->State[1] = cbChecked;} else {Form1->D_BSPS8->State[1] = cbUnchecked;}
-   if (BData & 0x20) {Form1->D_BSPS8->State[2] = cbChecked;} else {Form1->D_BSPS8->State[2] = cbUnchecked;}
-   if (BData & 0x10) {Form1->D_BSPS8->State[3] = cbChecked;} else {Form1->D_BSPS8->State[3] = cbUnchecked;}
-   if (BData & 0x08) {Form1->D_BSPS8->State[4] = cbChecked;} else {Form1->D_BSPS8->State[4] = cbUnchecked;}
-   if (BData & 0x04) {Form1->D_BSPS8->State[5] = cbChecked;} else {Form1->D_BSPS8->State[5] = cbUnchecked;}
-   if (BData & 0x02) {Form1->D_BSPS8->State[6] = cbChecked;} else {Form1->D_BSPS8->State[6] = cbUnchecked;}
-   if (BData & 0x01) {Form1->D_BSPS8->State[7] = cbChecked;} else {Form1->D_BSPS8->State[7] = cbUnchecked;}
+   mlBData = IN_INF_KPA1[71]; //Код неисправности 8 (БУК1)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK1_KEY8->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
 
-   BData = IN_INF_KPA1[11]; //Диагностика ГПЧ-200 (выпрямитель), D_BSPS+9
+   mlBData = IN_INF_KPA1[72]; //Код неисправности 1 (БУК2)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK2_KEY1->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
-   if (BData & 0x80) {Form1->D_BSPS9->State[0] = cbChecked;} else {Form1->D_BSPS9->State[0] = cbUnchecked;}
-   if (BData & 0x40) {Form1->D_BSPS9->State[1] = cbChecked;} else {Form1->D_BSPS9->State[1] = cbUnchecked;}
-   if (BData & 0x20) {Form1->D_BSPS9->State[2] = cbChecked;} else {Form1->D_BSPS9->State[2] = cbUnchecked;}
-   if (BData & 0x10) {Form1->D_BSPS9->State[3] = cbChecked;} else {Form1->D_BSPS9->State[3] = cbUnchecked;}
-   if (BData & 0x08) {Form1->D_BSPS9->State[4] = cbChecked;} else {Form1->D_BSPS9->State[4] = cbUnchecked;}
-   if (BData & 0x04) {Form1->D_BSPS9->State[5] = cbChecked;} else {Form1->D_BSPS9->State[5] = cbUnchecked;}
-   if (BData & 0x02) {Form1->D_BSPS9->State[6] = cbChecked;} else {Form1->D_BSPS9->State[6] = cbUnchecked;}
-   if (BData & 0x01) {Form1->D_BSPS9->State[7] = cbChecked;} else {Form1->D_BSPS9->State[7] = cbUnchecked;}
+   mlBData = IN_INF_KPA1[73]; //Код неисправности 2 (БУК2)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK2_KEY2->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
+   mlBData = IN_INF_KPA1[74]; //Код неисправности 3 (БУК2)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK2_KEY3->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
-   BData = IN_INF_KPA1[12]; //Диагностика ПС-СГ (инвертор), D_BSPS+10
+   mlBData = IN_INF_KPA1[75]; //Код неисправности 4 (БУК2)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK2_KEY4->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
-   if (BData & 0x80) {Form1->D_BSPS10->State[0] = cbChecked;} else {Form1->D_BSPS10->State[0] = cbUnchecked;}
-   if (BData & 0x40) {Form1->D_BSPS10->State[1] = cbChecked;} else {Form1->D_BSPS10->State[1] = cbUnchecked;}
-   if (BData & 0x20) {Form1->D_BSPS10->State[2] = cbChecked;} else {Form1->D_BSPS10->State[2] = cbUnchecked;}
-   if (BData & 0x10) {Form1->D_BSPS10->State[3] = cbChecked;} else {Form1->D_BSPS10->State[3] = cbUnchecked;}
-   if (BData & 0x08) {Form1->D_BSPS10->State[4] = cbChecked;} else {Form1->D_BSPS10->State[4] = cbUnchecked;}
-   if (BData & 0x04) {Form1->D_BSPS10->State[5] = cbChecked;} else {Form1->D_BSPS10->State[5] = cbUnchecked;}
-   if (BData & 0x02) {Form1->D_BSPS10->State[6] = cbChecked;} else {Form1->D_BSPS10->State[6] = cbUnchecked;}
-   if (BData & 0x01) {Form1->D_BSPS10->State[7] = cbChecked;} else {Form1->D_BSPS10->State[7] = cbUnchecked;}
+   mlBData = IN_INF_KPA1[76]; //Код неисправности 5 (БУК2)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK2_KEY5->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
+   mlBData = IN_INF_KPA1[77]; //Код неисправности 6 (БУК2)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK2_KEY6->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
-   BData = IN_INF_KPA1[13]; //Диагностика ПС-СГ (инвертор) (2), D_BSPS+11
+   mlBData = IN_INF_KPA1[78]; //Код неисправности 7 (БУК2)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK2_KEY7->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
 
-   if (BData & 0x80) {Form1->D_BSPS11->State[0] = cbChecked;} else {Form1->D_BSPS11->State[0] = cbUnchecked;}
-   if (BData & 0x40) {Form1->D_BSPS11->State[1] = cbChecked;} else {Form1->D_BSPS11->State[1] = cbUnchecked;}
-   if (BData & 0x20) {Form1->D_BSPS11->State[2] = cbChecked;} else {Form1->D_BSPS11->State[2] = cbUnchecked;}
-   if (BData & 0x10) {Form1->D_BSPS11->State[3] = cbChecked;} else {Form1->D_BSPS11->State[3] = cbUnchecked;}
-   if (BData & 0x08) {Form1->D_BSPS11->State[4] = cbChecked;} else {Form1->D_BSPS11->State[4] = cbUnchecked;}
-   if (BData & 0x04) {Form1->D_BSPS11->State[5] = cbChecked;} else {Form1->D_BSPS11->State[5] = cbUnchecked;}
-   if (BData & 0x02) {Form1->D_BSPS11->State[6] = cbChecked;} else {Form1->D_BSPS11->State[6] = cbUnchecked;}
-   if (BData & 0x01) {Form1->D_BSPS11->State[7] = cbChecked;} else {Form1->D_BSPS11->State[7] = cbUnchecked;}
-
-
-   BData = IN_INF_KPA1[14]; //Диагностика Связи с абонентами СУ, D_BSPS+12
-
-   if (BData & 0x80) {Form1->D_BSPS12->State[0] = cbChecked;} else {Form1->D_BSPS12->State[0] = cbUnchecked;}
-   if (BData & 0x40) {Form1->D_BSPS12->State[1] = cbChecked;} else {Form1->D_BSPS12->State[1] = cbUnchecked;}
-   if (BData & 0x20) {Form1->D_BSPS12->State[2] = cbChecked;} else {Form1->D_BSPS12->State[2] = cbUnchecked;}
-   if (BData & 0x10) {Form1->D_BSPS12->State[3] = cbChecked;} else {Form1->D_BSPS12->State[3] = cbUnchecked;}
-   if (BData & 0x08) {Form1->D_BSPS12->State[4] = cbChecked;} else {Form1->D_BSPS12->State[4] = cbUnchecked;}
-   if (BData & 0x04) {Form1->D_BSPS12->State[5] = cbChecked;} else {Form1->D_BSPS12->State[5] = cbUnchecked;}
-   if (BData & 0x02) {Form1->D_BSPS12->State[6] = cbChecked;} else {Form1->D_BSPS12->State[6] = cbUnchecked;}
-   if (BData & 0x01) {Form1->D_BSPS12->State[7] = cbChecked;} else {Form1->D_BSPS12->State[7] = cbUnchecked;}
-
-   
-   BData = IN_INF_KPA1[15]; //Диагностика СУ Макета, D_BSPS+13
-
-   if (BData & 0x80) {Form1->D_BSPS13->State[0] = cbChecked;} else {Form1->D_BSPS13->State[0] = cbUnchecked;}
-   if (BData & 0x40) {Form1->D_BSPS13->State[1] = cbChecked;} else {Form1->D_BSPS13->State[1] = cbUnchecked;}
-   if (BData & 0x20) {Form1->D_BSPS13->State[2] = cbChecked;} else {Form1->D_BSPS13->State[2] = cbUnchecked;}
-   if (BData & 0x10) {Form1->D_BSPS13->State[3] = cbChecked;} else {Form1->D_BSPS13->State[3] = cbUnchecked;}
-   if (BData & 0x08) {Form1->D_BSPS13->State[4] = cbChecked;} else {Form1->D_BSPS13->State[4] = cbUnchecked;}
-   if (BData & 0x04) {Form1->D_BSPS13->State[5] = cbChecked;} else {Form1->D_BSPS13->State[5] = cbUnchecked;}
-   if (BData & 0x02) {Form1->D_BSPS13->State[6] = cbChecked;} else {Form1->D_BSPS13->State[6] = cbUnchecked;}
-   if (BData & 0x01) {Form1->D_BSPS13->State[7] = cbChecked;} else {Form1->D_BSPS13->State[7] = cbUnchecked;}
-
-   BData = IN_INF_KPA1[16]; //Диагностика СУ Макета (2), D_BSPS+14
-
-   if (BData & 0x80) {Form1->D_BSPS14->State[0] = cbChecked;} else {Form1->D_BSPS14->State[0] = cbUnchecked;}
-   if (BData & 0x40) {Form1->D_BSPS14->State[1] = cbChecked;} else {Form1->D_BSPS14->State[1] = cbUnchecked;}
-   if (BData & 0x20) {Form1->D_BSPS14->State[2] = cbChecked;} else {Form1->D_BSPS14->State[2] = cbUnchecked;}
-   if (BData & 0x10) {Form1->D_BSPS14->State[3] = cbChecked;} else {Form1->D_BSPS14->State[3] = cbUnchecked;}
-   if (BData & 0x08) {Form1->D_BSPS14->State[4] = cbChecked;} else {Form1->D_BSPS14->State[4] = cbUnchecked;}
-   if (BData & 0x04) {Form1->D_BSPS14->State[5] = cbChecked;} else {Form1->D_BSPS14->State[5] = cbUnchecked;}
-   if (BData & 0x02) {Form1->D_BSPS14->State[6] = cbChecked;} else {Form1->D_BSPS14->State[6] = cbUnchecked;}
-   if (BData & 0x01) {Form1->D_BSPS14->State[7] = cbChecked;} else {Form1->D_BSPS14->State[7] = cbUnchecked;}
-
-   BData = IN_INF_KPA1[17]; //Диагностика СУ Макета (3), D_BSPS+15
-
-   if (BData & 0x80) {Form1->D_BSPS15->State[0] = cbChecked;} else {Form1->D_BSPS15->State[0] = cbUnchecked;}
-   if (BData & 0x40) {Form1->D_BSPS15->State[1] = cbChecked;} else {Form1->D_BSPS15->State[1] = cbUnchecked;}
-   if (BData & 0x20) {Form1->D_BSPS15->State[2] = cbChecked;} else {Form1->D_BSPS15->State[2] = cbUnchecked;}
-   if (BData & 0x10) {Form1->D_BSPS15->State[3] = cbChecked;} else {Form1->D_BSPS15->State[3] = cbUnchecked;}
-   if (BData & 0x08) {Form1->D_BSPS15->State[4] = cbChecked;} else {Form1->D_BSPS15->State[4] = cbUnchecked;}
-   if (BData & 0x04) {Form1->D_BSPS15->State[5] = cbChecked;} else {Form1->D_BSPS15->State[5] = cbUnchecked;}
-   if (BData & 0x02) {Form1->D_BSPS15->State[6] = cbChecked;} else {Form1->D_BSPS15->State[6] = cbUnchecked;}
-   if (BData & 0x01) {Form1->D_BSPS15->State[7] = cbChecked;} else {Form1->D_BSPS15->State[7] = cbUnchecked;}
-*/
+   mlBData = IN_INF_KPA1[79]; //Код неисправности 8 (БУК2)
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VLBUK2_KEY8->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
+   }
 
    //уходя, выключай свет!
    BData = 0;

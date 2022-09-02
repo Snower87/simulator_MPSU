@@ -31,7 +31,7 @@ unsigned short int GCRC=0; //переменная для счета CRC-кода
 
 unsigned char StartError = 0x00; //инициализация ошибки при старте программы
 
-#define BuffSize 0x20  //константа для задания длины буфера
+#define BuffSize 100 //Константа для задания длины буфера
 unsigned char ZPRKPA1[BuffSize] = {0}; // БУФЕР формирующий запрос по первой команде в канале
 unsigned char ZPRKPA2[BuffSize] = {0}; //                          по второй команде
 unsigned char ZPRKPA3[BuffSize] = {0}; //                          по третьей команде

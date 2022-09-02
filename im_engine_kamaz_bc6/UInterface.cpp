@@ -16,7 +16,7 @@ ThreadComPort *ThCom;
 extern HANDLE hCom;
 extern unsigned short int GCRC;
 extern unsigned char StartError;
-#define BuffSize1 0x20  //константа для задания длины буфера
+#define BuffSize1 100  //константа для задания длины буфера
 
 extern unsigned char IN_INF_KPA1[BuffSize1];
 extern unsigned char OUT_INF_KPA1[BuffSize1];

@@ -1,10 +1,10 @@
 object Form1: TForm1
-  Left = 282
-  Top = 56
-  Width = 1175
-  Height = 876
+  Left = 283
+  Top = 40
+  Width = 1194
+  Height = 880
   BiDiMode = bdLeftToRight
-  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 05)'
+  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 06)'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -89,8 +89,8 @@ object Form1: TForm1
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 823
-    Width = 1167
+    Top = 827
+    Width = 1186
     Height = 19
     Panels = <
       item

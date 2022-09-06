@@ -26,8 +26,33 @@ void READ_ANSWER ()
    double ValueAnParam = 0;    //инициализация выводимого значения аналогового параметра
    AnsiString StrValueAnDouble = ""; //строка с выводимым значением аналоговым параметра типа double
 
-   //1. Парсинг посылки от КПСН (команда 01h, ПЧ1)
+   unsigned char CRCh = 0x00;
+   unsigned char CRCl = 0x00;
+   unsigned short int GCRC;
+
+   bool PR_CORRECT_CRC = false;
+
    if (IN_INF_KPA1[1] == 0x01) {
+       GCRC=SCalcCRC(IN_INF_KPA1, 78);
+       CRCh = ((UCHAR*)(&GCRC))[0];
+       CRCl = ((UCHAR*)(&GCRC))[1];
+
+       if ((IN_INF_KPA1[78] == CRCh) && (IN_INF_KPA1[79] == CRCl)) {
+           PR_CORRECT_CRC = true;
+       }
+   } else if (IN_INF_KPA1[1] == 0x02) {
+       GCRC=SCalcCRC(IN_INF_KPA1, 88);
+
+       CRCh = ((UCHAR*)(&GCRC))[0];
+       CRCl = ((UCHAR*)(&GCRC))[1];
+
+       if ((IN_INF_KPA1[88] == CRCh) && (IN_INF_KPA1[89] == CRCl)) {
+           PR_CORRECT_CRC = true;
+       }
+   }
+
+   //1. Парсинг посылки от КПСН (команда 01h, ПЧ1)
+   if ((IN_INF_KPA1[1] == 0x01) && (PR_CORRECT_CRC == true)) {
    mlBData = IN_INF_KPA1[2]; //Fpllout, Вычисленная ФАПЧ частота сети, мл.б. ЦМР = 0,1 Гц, 0..100Гц
    stBData = IN_INF_KPA1[3]; //Fpllout, Вычисленная ФАПЧ частота сети, ст.б.
    ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 0.1;
@@ -224,7 +249,7 @@ void READ_ANSWER ()
    }
 
    //2. Парсинг посылки от КПСН (команда 02h, ПЧ2)
-   if (IN_INF_KPA1[1] == 0x02) {
+   if ((IN_INF_KPA1[1] == 0x02) && (PR_CORRECT_CRC == true)) {
    mlBData = IN_INF_KPA1[2]; //Fpllout, Вычисленная ФАПЧ частота сети, мл.б. ЦМР = 0,1 Гц, 0..100Гц
    stBData = IN_INF_KPA1[3]; //Fpllout, Вычисленная ФАПЧ частота сети, ст.б.
    ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 0.1;

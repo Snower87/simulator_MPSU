@@ -4,7 +4,7 @@ object Form1: TForm1
   Width = 1194
   Height = 880
   BiDiMode = bdLeftToRight
-  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 06)'
+  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 07)'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

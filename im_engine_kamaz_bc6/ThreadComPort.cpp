@@ -63,11 +63,8 @@ void __fastcall ThreadComPort::Printing()
     Form1->M_OUT_DATA->Lines->Add(StringToHex(OUT_INF_KPA1,dwOUT1)); //выводим переданную строку в Memo
     Form1->StatusBar1->Panels->Items[1]->Text = "Передано " + IntToStr(dwOUT1) + " байт" ; //выводим количество переданных байт
 
-    if (dwIN1 == 80) {
-       count_recive++;
-    }
     Form1->M_IN_DATA->Lines->Add(StringToHex(IN_INF_KPA1,dwIN1)); //выводим принятую строку в Memo
-    Form1->StatusBar1->Panels->Items[2]->Text = "Принято " + IntToStr(dwIN1) + " байт" + " " +  IntToStr(count_recive) + " " + IntToStr(IN_INF_KPA1[2]);  //выводим количество принятых байт
+    Form1->StatusBar1->Panels->Items[2]->Text = "Принято " + IntToStr(dwIN1) + " байт";  //выводим количество принятых байт
 
     unsigned short int PrINCRC = 0x00; // проверка CRC-кода входящего буфера
     PrINCRC=SCalcCRC(IN_INF_KPA1,20);
@@ -77,11 +74,6 @@ void __fastcall ThreadComPort::Printing()
 
    double ValueAnParam = 0;    //инициализация выводимого значения аналогового параметра
    AnsiString StrValueAnDouble = ""; //строка с выводимым значением аналоговым параметра типа double
-
-   mlBData = IN_INF_KPA1[2]; //Fpllout, Вычисленная ФАПЧ частота сети, мл.б. ЦМР = 0,1 Гц, 0..100Гц
-   stBData = IN_INF_KPA1[3]; //Fpllout, Вычисленная ФАПЧ частота сети, ст.б.
-   ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 0.1;
-   Form1->EPCH1_BYTE3->Text =  StrValueAnDouble.FormatFloat("#0.0#",ValueAnParam);
 
      //если ответ не пришел или пришел не полный, тогда
      //обнуляю отображаемую информацию на форме по данному ответу

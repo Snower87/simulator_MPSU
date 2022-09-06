@@ -106,6 +106,11 @@ void __fastcall ThreadComPort::Execute()
    {
     if (Form1->BStart->Caption ==  "Старт") {break;}
 
+  //чистка буфера перед выдачей
+   for (int i = 0; i < 14; i++) {
+       OUT_INF_KPA1[i] = 0;
+   }
+
     if ((count_req % 2) == 0) {
         OUT_INF_KPA1[0]=0x01; // б1. адрес
         OUT_INF_KPA1[1]=0x01; // б2. команда
@@ -162,7 +167,7 @@ void __fastcall ThreadComPort::Execute()
         READCOM(IN_INF_KPA1, 90);
     }
 
-        Sleep (5000);
+   Sleep (1000);
 
    Synchronize (Printing);
    count_req++;

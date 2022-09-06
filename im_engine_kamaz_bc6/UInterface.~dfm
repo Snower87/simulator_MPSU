@@ -4,7 +4,7 @@ object Form1: TForm1
   Width = 1194
   Height = 880
   BiDiMode = bdLeftToRight
-  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 06)'
+  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 08)'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -190,7 +190,7 @@ object Form1: TForm1
       end
       object LSAVE: TLabel
         Left = 277
-        Top = 268
+        Top = 148
         Width = 54
         Height = 16
         Caption = #1047#1072#1087#1080#1089#1100
@@ -387,7 +387,7 @@ object Form1: TForm1
       end
       object CBSAVE: TCheckBox
         Left = 289
-        Top = 288
+        Top = 168
         Width = 25
         Height = 17
         TabOrder = 3

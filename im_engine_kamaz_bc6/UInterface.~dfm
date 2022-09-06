@@ -190,7 +190,7 @@ object Form1: TForm1
       end
       object LSAVE: TLabel
         Left = 277
-        Top = 148
+        Top = 140
         Width = 54
         Height = 16
         Caption = #1047#1072#1087#1080#1089#1100
@@ -387,7 +387,7 @@ object Form1: TForm1
       end
       object CBSAVE: TCheckBox
         Left = 289
-        Top = 168
+        Top = 160
         Width = 25
         Height = 17
         TabOrder = 3

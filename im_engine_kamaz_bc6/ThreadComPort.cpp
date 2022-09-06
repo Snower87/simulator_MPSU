@@ -167,7 +167,7 @@ void __fastcall ThreadComPort::Execute()
         READCOM(IN_INF_KPA1, 90);
     }
 
-   Sleep (1000);
+   Sleep (50);
 
    Synchronize (Printing);
    count_req++;

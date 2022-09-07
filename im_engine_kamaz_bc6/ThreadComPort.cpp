@@ -6,6 +6,7 @@
 #include "ThreadComPort.h"
 #include "UInterface.h"
 #include "UCOMPortFunc.h"
+#include "UReadAnswer.h"
 
 extern HANDLE hCom;
 extern unsigned short int GCRC;
@@ -60,10 +61,44 @@ Priority = tpTimeCritical; // tpHighest - приоритет потока - на два пункта выше 
 int count_recive = 0;
 void __fastcall ThreadComPort::Printing()
 {
+   unsigned char CRCh = 0x00;
+   unsigned char CRCl = 0x00;
+   unsigned short int GCRC;
+   bool PR_CORRECT = false;
+
+   if ((IN_INF_KPA1[1] == 0x01) && (dwIN1 == 80)) {
+       GCRC=SCalcCRC(IN_INF_KPA1, 78);
+       CRCh = ((UCHAR*)(&GCRC))[0];
+       CRCl = ((UCHAR*)(&GCRC))[1];
+
+       if ((IN_INF_KPA1[78] == CRCh) && (IN_INF_KPA1[79] == CRCl)) {
+           counter_01h++;
+           PR_CORRECT = true;
+       }
+   }
+
+   if ((IN_INF_KPA1[1] == 0x02) && (dwIN1 == 90)) {
+       GCRC=SCalcCRC(IN_INF_KPA1, 88);
+       CRCh = ((UCHAR*)(&GCRC))[0];
+       CRCl = ((UCHAR*)(&GCRC))[1];
+
+       if ((IN_INF_KPA1[88] == CRCh) && (IN_INF_KPA1[89] == CRCl)) {
+           counter_02h++;
+           PR_CORRECT = true;
+       }
+   }
+
     Form1->M_OUT_DATA->Lines->Add(StringToHex(OUT_INF_KPA1,dwOUT1)); //выводим переданную строку в Memo
     Form1->StatusBar1->Panels->Items[1]->Text = "Передано " + IntToStr(dwOUT1) + " байт" ; //выводим количество переданных байт
 
-    Form1->M_IN_DATA->Lines->Add(StringToHex(IN_INF_KPA1,dwIN1)); //выводим принятую строку в Memo
+    Form1->M_IN_DATA->Lines->Add(IntToStr(dwIN1) + " байт: " + StringToHex(IN_INF_KPA1,dwIN1)); //выводим принятую строку в Memo
+    Form1->M_IN_DATA->Lines->Add(IntToStr(GCRC) + " H: " + CRCh + " L: " + CRCl);
+    if (PR_CORRECT == 1) {
+       Form1->M_IN_DATA->Lines->Add("true");
+    } else {
+       Form1->M_IN_DATA->Lines->Add("false");
+    }
+
     Form1->StatusBar1->Panels->Items[2]->Text = "Принято " + IntToStr(dwIN1) + " байт";  //выводим количество принятых байт
 
     unsigned short int PrINCRC = 0x00; // проверка CRC-кода входящего буфера
@@ -75,29 +110,64 @@ void __fastcall ThreadComPort::Printing()
    double ValueAnParam = 0;    //инициализация выводимого значения аналогового параметра
    AnsiString StrValueAnDouble = ""; //строка с выводимым значением аналоговым параметра типа double
 
-     //если ответ не пришел или пришел не полный, тогда
-     //обнуляю отображаемую информацию на форме по данному ответу
-     if ((dwIN1==0)||(dwIN1!=80)||(dwIN1!=90))
-        {
-//         for (int k = 0; k < 0x20; k++) IN_INF_KPA1[k] = 0x00; //обнуляю буфер приема
-
+     if ((dwIN1 == 80)||(dwIN1 == 90)) {
+         Form1->SHNETSV->Brush->Color = clGreen;
+     } else {
          Form1->SHNETSV->Brush->Color = clRed;
-        }
-     else {Form1->SHNETSV->Brush->Color = clGreen;}
-
+     }       
 
      //обнуление всех фонарей при нажатии на кнопку "Стоп"
      if (Form1->BStart->Caption == "Старт")
        {
-         memset(IN_INF_KPA1,0,BuffSize1); //обнуляю буфер приема
+//         memset(IN_INF_KPA1,0,BuffSize1); //обнуляю буфер приема
 
          Form1->SHNETSV->Brush->Color = clWhite;         
        }
 
+//    if (dwIN1 == 80) counter_01h++;
+//    if (dwIN1 == 90) counter_02h++;    
+
     READ_ANSWER();
 }
+
+int count_tx1 = 0;
+int count_tx2 = 0;
+
+void __fastcall ThreadComPort::pb() {
+    static int n = 0;
+    n++;
+
+   Form1->LTX1->Caption = count_tx1;
+   Form1->LTX2->Caption = count_tx2;
+//    Form1->Caption = n;
+}
+
+volatile unsigned int aaa = 0;
+
+void __fastcall ThreadComPort::READ_ANSWER2() {
+   //1. Парсинг посылки от КПСН (команда 01h, ПЧ1)
+   if (IN_INF_KPA1[1] == 0x01) {
+   unsigned char stBData = 0x00; //инициализация байта данных (ст.б.)
+   unsigned char mlBData = 0x00; //инициализация байта данных (мл.б.)
+
+   static double ValueAnParam = 0;    //инициализация выводимого значения аналогового параметра
+   AnsiString StrValueAnDouble = ""; //строка с выводимым значением аналоговым параметра типа double
+      
+   mlBData = IN_INF_KPA1[63]; //Счетчик циклов КПСН, мл.б.  ЦМР = 1, 0.. 65535
+   stBData = IN_INF_KPA1[64]; //Счетчик циклов КПСН, ст.б.
+   ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 1;
+   aaa = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 1;
+   Form1->VPCH1_BYTE64->Caption =  ValueAnParam;
+   Form1->Caption = aaa;
+   }
+}
 //---------------------------------------------------------------------------
-int count_req = 0;
+volatile static unsigned int count_req = 1;
+
+unsigned char NCycle = 0;
+
+unsigned char TEMP_BUFF[BuffSize1] = {0};
+
 void __fastcall ThreadComPort::Execute()
 {
   //---- Place thread code here ----
@@ -111,7 +181,12 @@ void __fastcall ThreadComPort::Execute()
        OUT_INF_KPA1[i] = 0;
    }
 
-    if ((count_req % 2) == 0) {
+   Sleep (500);
+
+   switch (NCycle)
+  {
+   case 0:
+    {
         OUT_INF_KPA1[0]=0x01; // б1. адрес
         OUT_INF_KPA1[1]=0x01; // б2. команда
 
@@ -147,11 +222,72 @@ void __fastcall ThreadComPort::Execute()
         OUT_INF_KPA1[15]=((UCHAR*)(&GCRC))[1];
 
         WRITECOM(OUT_INF_KPA1,16);
+        count_tx1++;
+
+        GCRC = 0; //после подсчета CRC-кода для запроса делаю обнуление параметра
+        
+        break;
+    }
+   case 1:
+    {
+        OUT_INF_KPA1[0]=0x01; // б1. адрес
+        OUT_INF_KPA1[1]=0x02; // б2. команда
+        GCRC=SCalcCRC(OUT_INF_KPA1, 2);
+        OUT_INF_KPA1[2]=((UCHAR*)(&GCRC))[0];
+        OUT_INF_KPA1[3]=((UCHAR*)(&GCRC))[1];
+
+        WRITECOM(OUT_INF_KPA1, 4);
+        count_tx2++;
 
         GCRC = 0; //после подсчета CRC-кода для запроса делаю обнуление параметра
 
-        Application->ProcessMessages();
-        READCOM(IN_INF_KPA1, 80);
+        break;
+    }
+  }
+
+/*
+    if (count_req == 1) {
+        OUT_INF_KPA1[0]=0x01; // б1. адрес
+        OUT_INF_KPA1[1]=0x01; // б2. команда
+
+        unsigned char ByteDiscrComm = 0x00; //инициализация байта дискретных команд
+
+        if (Form1->CheckListBoxChanel1->Checked[7] == true) {ByteDiscrComm = ByteDiscrComm + 0x01;}
+        if (Form1->CheckListBoxChanel1->Checked[6] == true) {ByteDiscrComm = ByteDiscrComm + 0x02;}
+        if (Form1->CheckListBoxChanel1->Checked[5] == true) {ByteDiscrComm = ByteDiscrComm + 0x04;}
+        if (Form1->CheckListBoxChanel1->Checked[4] == true) {ByteDiscrComm = ByteDiscrComm + 0x08;}
+
+        OUT_INF_KPA1[2] = ByteDiscrComm; // б3. команды СУЭ
+
+        unsigned char ByteAnlgComm = 0x00; //инициализация байта аналоговых команд
+
+        if  (Form1->CBSAVE->Checked == true) {
+             OUT_INF_KPA1[3]=  (StrToInt(Form1->E_UST_PROMCONTUR->Text) & 0x00FF) / 1;            // б4. уставка по напряжению в промконтуре, мл.б.
+             OUT_INF_KPA1[4]= ((StrToInt(Form1->E_UST_PROMCONTUR->Text) & 0xFF00) >> 8 ) / 1;     // б5. уставка по напряжению в промконтуре, ст.б.
+
+             OUT_INF_KPA1[5]=  (StrToInt(Form1->E_OGR_ZAR_AKB->Text) & 0x00FF) / 1;               // б6. ограничение по напряжению заряда АКБ, мл.б.
+             OUT_INF_KPA1[6]= ((StrToInt(Form1->E_OGR_ZAR_AKB->Text) & 0xFF00) >> 8 ) / 1;        // б7. ограничение по напряжению заряда АКБ, ст.б.
+
+             OUT_INF_KPA1[7]=  StrToInt(Form1->E_OGR_PRIR_J_ZAR_AKB->Text) / 1;                   // б8. ограничение по приращению тока заряда АКБ
+
+             OUT_INF_KPA1[8]=  (StrToInt(Form1->E_OGR_J_ZAR_AKB->Text) & 0x00FF) / 1;             // б9. ограничение по току заряда АКБ, мл.б.
+             OUT_INF_KPA1[9]= ((StrToInt(Form1->E_OGR_J_ZAR_AKB->Text) & 0xFF00) >> 8 ) / 1;      // б10. ограничение по току заряда АКБ, ст.б.
+
+             OUT_INF_KPA1[10]=  (StrToInt(Form1->E_OGR_J_PROMCONTUR->Text) & 0x00FF) / 1;         // б11. ограничение по току промконтура, мл.б.
+             OUT_INF_KPA1[11]= ((StrToInt(Form1->E_OGR_J_PROMCONTUR->Text) & 0xFF00) >> 8 ) / 1;  // б12. ограничение по току промконтура, ст.б.
+        }
+
+        GCRC=SCalcCRC(OUT_INF_KPA1, 14);
+        OUT_INF_KPA1[14]=((UCHAR*)(&GCRC))[0];
+        OUT_INF_KPA1[15]=((UCHAR*)(&GCRC))[1];
+
+        WRITECOM(OUT_INF_KPA1,16);
+        count_tx1++;
+
+        GCRC = 0; //после подсчета CRC-кода для запроса делаю обнуление параметра
+
+//        Application->ProcessMessages();
+//        READCOM(IN_INF_KPA1, 80);
     } else {
         OUT_INF_KPA1[0]=0x01; // б1. адрес
         OUT_INF_KPA1[1]=0x02; // б2. команда
@@ -160,17 +296,50 @@ void __fastcall ThreadComPort::Execute()
         OUT_INF_KPA1[3]=((UCHAR*)(&GCRC))[1];
 
         WRITECOM(OUT_INF_KPA1, 4);
+        count_tx2++;
 
         GCRC = 0; //после подсчета CRC-кода для запроса делаю обнуление параметра
 
-        Application->ProcessMessages();
-        READCOM(IN_INF_KPA1, 90);
+//        Application->ProcessMessages();
+//        READCOM(IN_INF_KPA1, 90);
     }
 
-   Sleep (50);
+*/
+
+  Application->ProcessMessages();
+
+   switch (NCycle)
+  {
+   case 0:
+    {
+     //FUNC_ZAPIS_PRED_BYTE();
+
+     READCOM(TEMP_BUFF, 80);
+     break;
+    }
+   case 1:
+    {
+     //FUNC_ZAPIS_PRED_BYTE();
+
+     READCOM(TEMP_BUFF, 90);
+     break;
+    }
+  }
+
+  for (int i = 0; i < 100; i ++) {
+  }
+
+  memcpy(IN_INF_KPA1, TEMP_BUFF, 99);
 
    Synchronize (Printing);
-   count_req++;
+   Synchronize (READ_ANSWER2);
+   Synchronize (pb);
+//        Application->ProcessMessages();
+
+   NCycle++;
+   if (NCycle == 2) {NCycle = 0;}
+
+//   count_req++;
    }// закрытие while
 }
 //---------------------------------------------------------------------------

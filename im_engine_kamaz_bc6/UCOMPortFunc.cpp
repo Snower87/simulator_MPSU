@@ -45,6 +45,8 @@ unsigned char OTVKPA4[BuffSize] = {0}; //                          по четвертой 
 unsigned char IN_INF_KPA1[BuffSize] = {0}; //                          по четвертой команде
 unsigned char OUT_INF_KPA1[BuffSize] = {0}; //                          по четвертой команде
 
+unsigned char IN_INF_KPSN_01h[BuffSize] = {0};
+unsigned char IN_INF_KPSN_02h[BuffSize] = {0};
 
 //Переменные с числом реально переданных/принятых бай
 DWORD dwZPR1; //переменная со значением реально переданных байтов по первому запросу

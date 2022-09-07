@@ -13,6 +13,9 @@ extern unsigned char OUT_INF_KPA1[BuffSize1];
 
 //---------------------------------------------------------------------------
 
+volatile unsigned int counter_01h = 0;
+volatile unsigned int counter_02h = 0;
+
 #pragma package(smart_init)
 
 //функция чтения и отображения принимаемых ответа по командам 01h
@@ -38,6 +41,7 @@ void READ_ANSWER ()
        CRCl = ((UCHAR*)(&GCRC))[1];
 
        if ((IN_INF_KPA1[78] == CRCh) && (IN_INF_KPA1[79] == CRCl)) {
+//           counter_01h++;
            PR_CORRECT_CRC = true;
        }
    } else if (IN_INF_KPA1[1] == 0x02) {
@@ -47,12 +51,25 @@ void READ_ANSWER ()
        CRCl = ((UCHAR*)(&GCRC))[1];
 
        if ((IN_INF_KPA1[88] == CRCh) && (IN_INF_KPA1[89] == CRCl)) {
+//           counter_02h++;
            PR_CORRECT_CRC = true;
        }
    }
 
+   Form1->LC01h->Caption = counter_01h;
+   Form1->LC02h->Caption = counter_02h;
+
+   if (PR_CORRECT_CRC) {
+      Form1->LBOOL1->Caption = "true";
+   } else {
+      Form1->LBOOL1->Caption = "false";
+   }
+   Form1->LBOOL2->Caption = BoolToStr(PR_CORRECT_CRC);
+
+   Form1->Caption += "_" + GCRC;
+
    //1. Парсинг посылки от КПСН (команда 01h, ПЧ1)
-   if ((IN_INF_KPA1[1] == 0x01) && (PR_CORRECT_CRC == true)) {
+   if ((IN_INF_KPA1[1] == 0x01)) {// && (PR_CORRECT_CRC == true)) {
    mlBData = IN_INF_KPA1[2]; //Fpllout, Вычисленная ФАПЧ частота сети, мл.б. ЦМР = 0,1 Гц, 0..100Гц
    stBData = IN_INF_KPA1[3]; //Fpllout, Вычисленная ФАПЧ частота сети, ст.б.
    ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 0.1;
@@ -246,10 +263,56 @@ void READ_ANSWER ()
    if (BData & 0x04) {Form1->CB_RPD_BYTE62->State[5] = cbChecked;} else {Form1->CB_RPD_BYTE62->State[5] = cbUnchecked;}
    if (BData & 0x02) {Form1->CB_RPD_BYTE62->State[6] = cbChecked;} else {Form1->CB_RPD_BYTE62->State[6] = cbUnchecked;}
    if (BData & 0x01) {Form1->CB_RPD_BYTE62->State[7] = cbChecked;} else {Form1->CB_RPD_BYTE62->State[7] = cbUnchecked;}
+
+   mlBData = IN_INF_KPA1[62]; //Версия КПСН
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VPCH1_BYTE63->Caption = StrValueAnDouble.FormatFloat("0",ValueAnParam);
+
+   mlBData = IN_INF_KPA1[63]; //Счетчик циклов КПСН, мл.б.  ЦМР = 1, 0.. 65535
+   stBData = IN_INF_KPA1[64]; //Счетчик циклов КПСН, ст.б.
+   ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 1.0;
+   Form1->VPCH1_BYTE64->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
+
+   BData = IN_INF_KPA1[65]; //Диагностика связи с ВУ (66 байт)
+
+   if (BData & 0x80) {Form1->CB_PCH1_BYTE66->State[0] = cbChecked;} else {Form1->CB_PCH1_BYTE66->State[0] = cbUnchecked;}
+   if (BData & 0x40) {Form1->CB_PCH1_BYTE66->State[1] = cbChecked;} else {Form1->CB_PCH1_BYTE66->State[1] = cbUnchecked;}
+   if (BData & 0x20) {Form1->CB_PCH1_BYTE66->State[2] = cbChecked;} else {Form1->CB_PCH1_BYTE66->State[2] = cbUnchecked;}
+   if (BData & 0x10) {Form1->CB_PCH1_BYTE66->State[3] = cbChecked;} else {Form1->CB_PCH1_BYTE66->State[3] = cbUnchecked;}
+   if (BData & 0x08) {Form1->CB_PCH1_BYTE66->State[4] = cbChecked;} else {Form1->CB_PCH1_BYTE66->State[4] = cbUnchecked;}
+   if (BData & 0x04) {Form1->CB_PCH1_BYTE66->State[5] = cbChecked;} else {Form1->CB_PCH1_BYTE66->State[5] = cbUnchecked;}
+   if (BData & 0x02) {Form1->CB_PCH1_BYTE66->State[6] = cbChecked;} else {Form1->CB_PCH1_BYTE66->State[6] = cbUnchecked;}
+   if (BData & 0x01) {Form1->CB_PCH1_BYTE66->State[7] = cbChecked;} else {Form1->CB_PCH1_BYTE66->State[7] = cbUnchecked;}
+
+   mlBData = IN_INF_KPA1[66]; //Состояние КПСН
+   ValueAnParam = ((unsigned char)mlBData)* 1.0;
+   Form1->VPCH1_BYTE67->Caption =  StrValueAnDouble.FormatFloat("0",ValueAnParam);
+
+   BData = IN_INF_KPA1[67]; //Признаки отказов (68 байт)
+
+   if (BData & 0x80) {Form1->CB_PCH1_BYTE68->State[0] = cbChecked;} else {Form1->CB_PCH1_BYTE68->State[0] = cbUnchecked;}
+   if (BData & 0x40) {Form1->CB_PCH1_BYTE68->State[1] = cbChecked;} else {Form1->CB_PCH1_BYTE68->State[1] = cbUnchecked;}
+   if (BData & 0x20) {Form1->CB_PCH1_BYTE68->State[2] = cbChecked;} else {Form1->CB_PCH1_BYTE68->State[2] = cbUnchecked;}
+   if (BData & 0x10) {Form1->CB_PCH1_BYTE68->State[3] = cbChecked;} else {Form1->CB_PCH1_BYTE68->State[3] = cbUnchecked;}
+   if (BData & 0x08) {Form1->CB_PCH1_BYTE68->State[4] = cbChecked;} else {Form1->CB_PCH1_BYTE68->State[4] = cbUnchecked;}
+   if (BData & 0x04) {Form1->CB_PCH1_BYTE68->State[5] = cbChecked;} else {Form1->CB_PCH1_BYTE68->State[5] = cbUnchecked;}
+   if (BData & 0x02) {Form1->CB_PCH1_BYTE68->State[6] = cbChecked;} else {Form1->CB_PCH1_BYTE68->State[6] = cbUnchecked;}
+   if (BData & 0x01) {Form1->CB_PCH1_BYTE68->State[7] = cbChecked;} else {Form1->CB_PCH1_BYTE68->State[7] = cbUnchecked;}
+
+   BData = IN_INF_KPA1[68]; //Признаки квитирования (69 байт)
+
+   if (BData & 0x80) {Form1->CB_PCH1_BYTE69->State[0] = cbChecked;} else {Form1->CB_PCH1_BYTE69->State[0] = cbUnchecked;}
+   if (BData & 0x40) {Form1->CB_PCH1_BYTE69->State[1] = cbChecked;} else {Form1->CB_PCH1_BYTE69->State[1] = cbUnchecked;}
+   if (BData & 0x20) {Form1->CB_PCH1_BYTE69->State[2] = cbChecked;} else {Form1->CB_PCH1_BYTE69->State[2] = cbUnchecked;}
+   if (BData & 0x10) {Form1->CB_PCH1_BYTE69->State[3] = cbChecked;} else {Form1->CB_PCH1_BYTE69->State[3] = cbUnchecked;}
+   if (BData & 0x08) {Form1->CB_PCH1_BYTE69->State[4] = cbChecked;} else {Form1->CB_PCH1_BYTE69->State[4] = cbUnchecked;}
+   if (BData & 0x04) {Form1->CB_PCH1_BYTE69->State[5] = cbChecked;} else {Form1->CB_PCH1_BYTE69->State[5] = cbUnchecked;}
+   if (BData & 0x02) {Form1->CB_PCH1_BYTE69->State[6] = cbChecked;} else {Form1->CB_PCH1_BYTE69->State[6] = cbUnchecked;}
+   if (BData & 0x01) {Form1->CB_PCH1_BYTE69->State[7] = cbChecked;} else {Form1->CB_PCH1_BYTE69->State[7] = cbUnchecked;}
    }
 
    //2. Парсинг посылки от КПСН (команда 02h, ПЧ2)
-   if ((IN_INF_KPA1[1] == 0x02) && (PR_CORRECT_CRC == true)) {
+   if ((IN_INF_KPA1[1] == 0x02)) {// && (PR_CORRECT_CRC == true)) {
    mlBData = IN_INF_KPA1[2]; //Fpllout, Вычисленная ФАПЧ частота сети, мл.б. ЦМР = 0,1 Гц, 0..100Гц
    stBData = IN_INF_KPA1[3]; //Fpllout, Вычисленная ФАПЧ частота сети, ст.б.
    ValueAnParam = ((unsigned char)stBData*256 + (unsigned char)mlBData)* 0.1;
@@ -557,5 +620,7 @@ void READ_ANSWER ()
    BData = 0;
    mlBData = 0;
    stBData = 0;
-   
+
+//   memset(IN_INF_KPA1,0,BuffSize1); //обнуляю буфер приема
+
 } //конец функции READ_ANSWER()

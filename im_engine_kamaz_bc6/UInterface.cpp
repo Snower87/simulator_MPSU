@@ -143,7 +143,7 @@ M_IN_DATA->Visible = true;
 L_TX_DATA->Visible = true;
 L_RX_DATA->Visible = true;
 L_ERROR_DATA->Visible = true;
-Form1->Width = 1600;
+Form1->Width = 1800;
 }
 //---------------------------------------------------------------------------
 

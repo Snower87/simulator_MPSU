@@ -1,10 +1,10 @@
 object Form1: TForm1
-  Left = 283
-  Top = 40
-  Width = 1194
+  Left = 277
+  Top = 62
+  Width = 1180
   Height = 880
   BiDiMode = bdLeftToRight
-  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 09)'
+  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 1.0)'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,8 +17,8 @@ object Form1: TForm1
   PixelsPerInch = 96
   TextHeight = 13
   object L_ERROR_DATA: TLabel
-    Left = 1320
-    Top = 24
+    Left = 1536
+    Top = 32
     Width = 193
     Height = 13
     Caption = #1054#1096#1080#1073#1082#1080' '#1087#1088#1080' '#1088#1072#1073#1086#1090#1077' '#1087#1088#1086#1075#1088#1072#1084#1084#1099':'
@@ -31,8 +31,8 @@ object Form1: TForm1
     Visible = False
   end
   object L_RX_DATA: TLabel
-    Left = 960
-    Top = 136
+    Left = 1176
+    Top = 144
     Width = 112
     Height = 13
     Caption = #1055#1088#1080#1085#1103#1090#1099#1077' '#1076#1072#1085#1085#1099#1077':'
@@ -45,8 +45,8 @@ object Form1: TForm1
     Visible = False
   end
   object L_TX_DATA: TLabel
-    Left = 960
-    Top = 24
+    Left = 1176
+    Top = 32
     Width = 127
     Height = 13
     Caption = #1055#1077#1088#1077#1076#1072#1085#1085#1099#1077' '#1076#1072#1085#1085#1099#1077':'
@@ -59,7 +59,7 @@ object Form1: TForm1
     Visible = False
   end
   object LCOMPORT: TLabel
-    Left = 866
+    Left = 1074
     Top = 12
     Width = 66
     Height = 13
@@ -87,10 +87,144 @@ object Form1: TForm1
     Height = 13
     Caption = #1053#1077#1090' '#1089#1074#1103#1079#1080' '#1089' '#1050#1055#1057#1053
   end
+  object LPCH1_BYTE63: TLabel
+    Left = 872
+    Top = 8
+    Width = 103
+    Height = 16
+    Caption = #1042#1077#1088#1089#1080#1103' '#1050#1055#1057#1053':'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object VPCH1_BYTE63: TLabel
+    Left = 984
+    Top = 8
+    Width = 23
+    Height = 16
+    Caption = 'x_x'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object LPCH1_BYTE64: TLabel
+    Left = 872
+    Top = 32
+    Width = 124
+    Height = 16
+    Caption = #1057#1095#1077#1090#1095#1080#1082' '#1094#1080#1082#1083#1086#1074':'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object VPCH1_BYTE64: TLabel
+    Left = 1008
+    Top = 32
+    Width = 9
+    Height = 16
+    Caption = '0'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object LPCH1_BYTE67: TLabel
+    Left = 872
+    Top = 56
+    Width = 129
+    Height = 16
+    Caption = #1057#1086#1089#1090#1086#1103#1085#1080#1077' '#1050#1055#1057#1053':'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object VPCH1_BYTE67: TLabel
+    Left = 1008
+    Top = 56
+    Width = 23
+    Height = 16
+    Caption = 'x_x'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object LCOUNTER_01h: TLabel
+    Left = 888
+    Top = 240
+    Width = 108
+    Height = 13
+    Caption = #1057#1095#1077#1090#1095#1080#1082' '#1087#1086#1089#1099#1083#1086#1082' 01h'
+  end
+  object LCOUNTER_02h: TLabel
+    Left = 888
+    Top = 264
+    Width = 108
+    Height = 13
+    Caption = #1057#1095#1077#1090#1095#1080#1082' '#1087#1086#1089#1099#1083#1086#1082' 02h'
+  end
+  object LC01h: TLabel
+    Left = 1016
+    Top = 240
+    Width = 31
+    Height = 13
+    Caption = 'LC01h'
+  end
+  object LC02h: TLabel
+    Left = 1016
+    Top = 264
+    Width = 31
+    Height = 13
+    Caption = 'LC02h'
+  end
+  object LTX1: TLabel
+    Left = 1080
+    Top = 240
+    Width = 26
+    Height = 13
+    Caption = 'LTX1'
+  end
+  object LTX2: TLabel
+    Left = 1080
+    Top = 264
+    Width = 26
+    Height = 13
+    Caption = 'LTX2'
+  end
+  object LBOOL1: TLabel
+    Left = 1120
+    Top = 240
+    Width = 41
+    Height = 13
+    Caption = 'LBOOL1'
+  end
+  object LBOOL2: TLabel
+    Left = 1120
+    Top = 264
+    Width = 41
+    Height = 13
+    Caption = 'LBOOL2'
+  end
   object StatusBar1: TStatusBar
     Left = 0
     Top = 827
-    Width = 1186
+    Width = 1172
     Height = 19
     Panels = <
       item
@@ -105,8 +239,8 @@ object Form1: TForm1
     SimplePanel = False
   end
   object MError: TMemo
-    Left = 1320
-    Top = 40
+    Left = 1536
+    Top = 48
     Width = 241
     Height = 73
     ScrollBars = ssVertical
@@ -114,16 +248,16 @@ object Form1: TForm1
     Visible = False
   end
   object M_IN_DATA: TMemo
-    Left = 960
-    Top = 152
+    Left = 1176
+    Top = 160
     Width = 601
-    Height = 81
+    Height = 193
     ScrollBars = ssVertical
     TabOrder = 2
     Visible = False
   end
   object BStart: TButton
-    Left = 864
+    Left = 1072
     Top = 56
     Width = 75
     Height = 25
@@ -132,7 +266,7 @@ object Form1: TForm1
     OnClick = BStartClick
   end
   object BExit: TButton
-    Left = 864
+    Left = 1072
     Top = 88
     Width = 75
     Height = 25
@@ -141,16 +275,16 @@ object Form1: TForm1
     OnClick = BExitClick
   end
   object M_OUT_DATA: TMemo
-    Left = 960
-    Top = 40
-    Width = 337
+    Left = 1176
+    Top = 48
+    Width = 353
     Height = 89
     ScrollBars = ssVertical
     TabOrder = 5
     Visible = False
   end
   object COMPORT: TComboBox
-    Left = 856
+    Left = 1064
     Top = 28
     Width = 97
     Height = 21
@@ -1344,7 +1478,7 @@ object Form1: TForm1
       end
     end
     object DIAGN_PCH_01h: TTabSheet
-      Caption = #1050#1086#1084#1072#1085#1076#1099' '#1091#1087#1088#1072#1074#1083'. '#1055#1063'1'
+      Caption = #1050#1086#1084#1072#1085#1076#1099' '#1091#1087#1088#1072#1074#1083'. '#1055#1063'1 + '#1055#1088#1080#1079#1085#1072#1082#1080
       ImageIndex = 2
       object LPCH1_BYTE49: TLabel
         Left = 56
@@ -1496,9 +1630,75 @@ object Form1: TForm1
         TabOrder = 5
         Text = '0'
       end
+      object GB_PCH1_BYTE68: TGroupBox
+        Left = 8
+        Top = 204
+        Width = 289
+        Height = 129
+        Caption = #1055#1088#1080#1079#1085#1072#1082#1080' '#1086#1090#1082#1072#1079#1086#1074
+        TabOrder = 6
+        object CB_PCH1_BYTE68: TCheckListBox
+          Left = 8
+          Top = 16
+          Width = 273
+          Height = 105
+          BorderStyle = bsNone
+          Color = clMenuBar
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ItemHeight = 13
+          Items.Strings = (
+            '7'#1088' - '#1088#1077#1079#1077#1088#1074
+            '6'#1088' - '#1088#1077#1079#1077#1088#1074
+            '5'#1088' - '#1088#1077#1079#1077#1088#1074
+            '4'#1088' - '#1079#1072#1088#1103#1076' '#1040#1050#1041' ('#1086#1090#1082#1072#1079')'
+            '3'#1088' - '#1088#1072#1073#1086#1090#1072' '#1086#1090' '#1040#1050#1041' ('#1086#1090#1082#1072#1079')'
+            '2'#1088' - '#1088#1072#1073#1086#1090#1072' '#1086#1090' '#1089#1077#1090#1080' 380 '#1042' ('#1086#1090#1082#1072#1079')'
+            '1'#1088' - '#1086#1090#1082#1072#1079' '#1055#1063'1'
+            '0'#1088' - '#1086#1090#1082#1072#1079' '#1055#1063'2')
+          ParentFont = False
+          TabOrder = 0
+        end
+      end
+      object GB_PCH1_BYTE69: TGroupBox
+        Left = 304
+        Top = 204
+        Width = 289
+        Height = 129
+        Caption = #1055#1088#1080#1079#1085#1072#1082#1080' '#1082#1074#1080#1090#1080#1088#1086#1074#1072#1085#1080#1103'  ('#1087#1088#1080' '#1079#1072#1076#1072#1085#1080#1080' '#1088#1077#1078#1080#1084#1086#1074' '#1055#1063')'
+        TabOrder = 7
+        object CB_PCH1_BYTE69: TCheckListBox
+          Left = 8
+          Top = 16
+          Width = 273
+          Height = 105
+          BorderStyle = bsNone
+          Color = clMenuBar
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ItemHeight = 13
+          Items.Strings = (
+            '7'#1088' - '#1088#1077#1079#1077#1088#1074
+            '6'#1088' - '#1088#1077#1079#1077#1088#1074
+            '5'#1088' - '#1088#1077#1079#1077#1088#1074
+            '4'#1088' - '#1088#1077#1079#1077#1088#1074
+            '3'#1088' - '#1087#1086#1076#1090#1074#1077#1088#1078#1076#1077#1085#1072' '#1079#1072#1087#1080#1089#1100' APPLY'
+            '2'#1088' - '#1087#1086#1076#1090#1074#1077#1088#1078#1076#1077#1085#1072' '#1079#1072#1087#1080#1089#1100' NPRM'
+            '1'#1088' - '#1087#1086#1083#1091#1095#1077#1085#1086' '#1089#1086#1089#1090#1086#1103#1085#1080#1077' APPLY'
+            '0'#1088' - '#1087#1086#1083#1091#1095#1077#1085#1086' '#1089#1086#1089#1090#1086#1103#1085#1080#1077' NPRM')
+          ParentFont = False
+          TabOrder = 0
+        end
+      end
     end
     object DIAGN_PCH_02h: TTabSheet
-      Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080' + '#1050#1086#1084#1072#1085#1076#1099' '#1091#1087#1088#1072#1074#1083'. '#1055#1063'2'
+      Caption = #1050#1086#1084#1072#1085#1076#1099' '#1091#1087#1088#1072#1074#1083'. '#1055#1063'2 + '#1053#1072#1089#1090#1088#1086#1081#1082#1080
       ImageIndex = 3
       object LPCH2_BYTE49: TLabel
         Left = 56
@@ -2295,7 +2495,7 @@ object Form1: TForm1
     end
   end
   object PC_DIAGN_M1: TPageControl
-    Left = 360
+    Left = 368
     Top = 8
     Width = 481
     Height = 313
@@ -2439,12 +2639,45 @@ object Form1: TForm1
     end
   end
   object B_SHOW_RXTX: TButton
-    Left = 736
+    Left = 904
     Top = 328
     Width = 105
     Height = 25
     Caption = #1055#1086#1082#1072#1079#1072#1090#1100' '#1086#1073#1084#1077#1085
     TabOrder = 10
     OnClick = B_SHOW_RXTXClick
+  end
+  object GB_PCH1_BYTE66: TGroupBox
+    Left = 864
+    Top = 84
+    Width = 185
+    Height = 129
+    Caption = #1044#1080#1072#1075#1085#1086#1089#1090#1080#1082#1072' '#1089#1074#1103#1079#1080' '#1089' '#1042#1059
+    TabOrder = 11
+    object CB_PCH1_BYTE66: TCheckListBox
+      Left = 8
+      Top = 16
+      Width = 169
+      Height = 105
+      BorderStyle = bsNone
+      Color = clMenuBar
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ItemHeight = 13
+      Items.Strings = (
+        '7'#1088' - '#1088#1077#1079#1077#1088#1074
+        '6'#1088' - '#1088#1077#1079#1077#1088#1074
+        '5'#1088' - '#1088#1077#1079#1077#1088#1074
+        '4'#1088' - '#1088#1077#1079#1077#1088#1074
+        '3'#1088' - '#1088#1077#1079#1077#1088#1074
+        '2'#1088' - '#1088#1077#1079#1077#1088#1074
+        '1'#1088' - '#1085#1077#1090' '#1089#1074#1103#1079#1080' ('#1079#1072#1087#1088#1086#1089' 1)'
+        '0'#1088' - '#1085#1077#1090' '#1089#1074#1103#1079#1080' ('#1079#1072#1087#1088#1086#1089' 2)')
+      ParentFont = False
+      TabOrder = 0
+    end
   end
 end

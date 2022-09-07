@@ -9,6 +9,8 @@ class ThreadComPort : public TThread
 {            
 private:
         void __fastcall Printing();
+        void __fastcall READ_ANSWER2();
+        void __fastcall pb();
 protected:
         void __fastcall Execute();
 public:

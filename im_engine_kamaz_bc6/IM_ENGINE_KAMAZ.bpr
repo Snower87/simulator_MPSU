@@ -70,7 +70,7 @@
 IncludeVerInfo=1
 AutoIncBuild=0
 MajorVer=1
-MinorVer=0
+MinorVer=1
 Release=0
 Build=0
 Debug=0
@@ -84,14 +84,17 @@ CodePage=1251
 [Version Info Keys]
 CompanyName=&quot;ООО Горизонт&quot;, Екатеринбург
 FileDescription=Программа для испытаний двигателя КАМАЗа
-FileVersion=1.0.0.0
+FileVersion=1.1.0.0
 InternalName=
 LegalCopyright=&quot;ООО Горизонт&quot;, Екатеринбург
 LegalTrademarks=
-OriginalFilename=IM ENGINE KAMAZ v1.0
+OriginalFilename=IM ENGINE KAMAZ v11
 ProductName=IM ENGINE KAMAZ BC6
-ProductVersion=1.0.0.0
+ProductVersion=1.1.0.0
 Comments=Программа для испытаний двигателя КАМАЗа
+
+[Excluded Packages]
+c:\program files (x86)\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
@@ -117,10 +120,5 @@ LinkCGLIB=0
 AddServerUnit=1
 AddClientUnit=1
 PrecompiledHeaders=1
-
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
   </IDEOPTIONS>
 </PROJECT>

@@ -1,10 +1,10 @@
 object Form1: TForm1
-  Left = 254
-  Top = 63
+  Left = 127
+  Top = 106
   Width = 1182
-  Height = 880
+  Height = 877
   BiDiMode = bdLeftToRight
-  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 1.0)'
+  Caption = #1048#1052' ENGINE KAMAZ ('#1042#1077#1088#1089#1080#1103' 11)'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object Form1: TForm1
   PixelsPerInch = 96
   TextHeight = 13
   object L_ERROR_DATA: TLabel
-    Left = 1536
+    Left = 1552
     Top = 32
     Width = 193
     Height = 13
@@ -171,6 +171,7 @@ object Form1: TForm1
     Width = 108
     Height = 13
     Caption = #1057#1095#1077#1090#1095#1080#1082' '#1087#1086#1089#1099#1083#1086#1082' 01h'
+    Visible = False
   end
   object LCOUNTER_02h: TLabel
     Left = 888
@@ -178,6 +179,7 @@ object Form1: TForm1
     Width = 108
     Height = 13
     Caption = #1057#1095#1077#1090#1095#1080#1082' '#1087#1086#1089#1099#1083#1086#1082' 02h'
+    Visible = False
   end
   object LC01h: TLabel
     Left = 1016
@@ -185,6 +187,7 @@ object Form1: TForm1
     Width = 31
     Height = 13
     Caption = 'LC01h'
+    Visible = False
   end
   object LC02h: TLabel
     Left = 1016
@@ -192,6 +195,7 @@ object Form1: TForm1
     Width = 31
     Height = 13
     Caption = 'LC02h'
+    Visible = False
   end
   object LTX1: TLabel
     Left = 1080
@@ -199,6 +203,7 @@ object Form1: TForm1
     Width = 26
     Height = 13
     Caption = 'LTX1'
+    Visible = False
   end
   object LTX2: TLabel
     Left = 1080
@@ -206,6 +211,7 @@ object Form1: TForm1
     Width = 26
     Height = 13
     Caption = 'LTX2'
+    Visible = False
   end
   object LBOOL1: TLabel
     Left = 1120
@@ -213,6 +219,7 @@ object Form1: TForm1
     Width = 41
     Height = 13
     Caption = 'LBOOL1'
+    Visible = False
   end
   object LBOOL2: TLabel
     Left = 1120
@@ -220,11 +227,12 @@ object Form1: TForm1
     Width = 41
     Height = 13
     Caption = 'LBOOL2'
+    Visible = False
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 827
-    Width = 1174
+    Top = 819
+    Width = 1166
     Height = 19
     Panels = <
       item
@@ -239,7 +247,7 @@ object Form1: TForm1
     SimplePanel = False
   end
   object MError: TMemo
-    Left = 1536
+    Left = 1552
     Top = 48
     Width = 241
     Height = 73
@@ -251,7 +259,7 @@ object Form1: TForm1
     Left = 1176
     Top = 160
     Width = 601
-    Height = 81
+    Height = 193
     ScrollBars = ssVertical
     TabOrder = 2
     Visible = False
@@ -277,7 +285,7 @@ object Form1: TForm1
   object M_OUT_DATA: TMemo
     Left = 1176
     Top = 48
-    Width = 337
+    Width = 369
     Height = 89
     ScrollBars = ssVertical
     TabOrder = 5

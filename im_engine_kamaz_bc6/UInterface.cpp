@@ -6,7 +6,6 @@
 #include "UInterface.h"
 #include "UInitialization.h"
 #include "UCOMPortFunc.h"
-#include "ThreadComPort.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -24,6 +23,12 @@ extern unsigned char OUT_INF_KPA1[BuffSize1];
 extern DWORD dwIN1;
 extern DWORD dwOUT1;
 
+extern DWORD dwZPR_KPSN_01h;
+extern DWORD dwZPR_KPSN_02h;
+
+extern DWORD dwOTV_KPSN_01h;
+extern DWORD dwOTV_KPSN_02h;
+
 extern void COMERROR(unsigned char ERR);
 extern void OPENCOM();
 extern void CLOSECOM();
@@ -39,7 +44,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::BExitClick(TObject *Sender)
 {
-// if (hCom!=0) CLOSECOM();
+ if (hCom!=0) CLOSECOM();
  Close();        
 }
 //---------------------------------------------------------------------------
@@ -97,11 +102,11 @@ void __fastcall TForm1::BStartClick(TObject *Sender)
 
 //при нажатии на кнопку "Стоп" - очищаю буфера приема и передачи,
 //устанавливаю счетчик циклов (NCycle) в начало, т.е. равным 1
-   CLEARBUFCOM();//
-//   NCycle = 1;
+//   CLEARBUFCOM();//
+   NCycle = 1;
 
-if (hCom)
-   {PurgeComm(hCom, PURGE_RXCLEAR|PURGE_TXCLEAR|PURGE_TXABORT|PURGE_RXABORT);}
+//if (hCom)
+   //{PurgeComm(hCom, PURGE_RXCLEAR|PURGE_TXCLEAR|PURGE_TXABORT|PURGE_RXABORT);}
 
 //закрываю дескриптор СОМ-порта
    CLOSECOM();
@@ -113,8 +118,11 @@ if (hCom)
    if(ThCom) ThCom->Terminate();   //завершить поток чтения из порта, проверка if(WriteCom) обязательна, иначе возникают ошибки
 
 //обнуляю содержимое указателей на количество переданных/принятых данных
-dwIN1 = 0;
-dwOUT1 = 0;
+dwZPR_KPSN_01h = 0;
+dwOTV_KPSN_01h = 0;
+
+dwZPR_KPSN_02h = 0;
+dwOTV_KPSN_02h = 0;
 
  BExit->Enabled = true;
   }
@@ -143,7 +151,7 @@ M_IN_DATA->Visible = true;
 L_TX_DATA->Visible = true;
 L_RX_DATA->Visible = true;
 L_ERROR_DATA->Visible = true;
-Form1->Width = 1800;
+Form1->Width = 1830;
 }
 //---------------------------------------------------------------------------
 

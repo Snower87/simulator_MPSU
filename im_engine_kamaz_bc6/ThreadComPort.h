@@ -17,4 +17,5 @@ public:
         __fastcall ThreadComPort(bool CreateSuspended);
 };
 //---------------------------------------------------------------------------
+extern unsigned char NCycle;
 #endif

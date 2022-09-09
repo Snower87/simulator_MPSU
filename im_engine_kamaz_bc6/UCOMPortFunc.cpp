@@ -5,6 +5,7 @@
 
 #include "UCOMPortFunc.h"
 #include "UInterface.h"
+#include "winbase.h"
 
 //---------------------------------------------------------------------------
 
@@ -27,11 +28,12 @@ DWORD RTTC;
 DWORD WTTM;
 DWORD WTTC;
 
+unsigned char NCycle = 1;
+
 unsigned short int GCRC=0; //переменная для счета CRC-кода
 
 unsigned char StartError = 0x00; //инициализация ошибки при старте программы
 
-#define BuffSize 100 //Константа для задания длины буфера
 unsigned char ZPRKPA1[BuffSize] = {0}; // БУФЕР формирующий запрос по первой команде в канале
 unsigned char ZPRKPA2[BuffSize] = {0}; //                          по второй команде
 unsigned char ZPRKPA3[BuffSize] = {0}; //                          по третьей команде
@@ -45,8 +47,11 @@ unsigned char OTVKPA4[BuffSize] = {0}; //                          по четвертой 
 unsigned char IN_INF_KPA1[BuffSize] = {0}; //                          по четвертой команде
 unsigned char OUT_INF_KPA1[BuffSize] = {0}; //                          по четвертой команде
 
-unsigned char IN_INF_KPSN_01h[BuffSize] = {0};
-unsigned char IN_INF_KPSN_02h[BuffSize] = {0};
+unsigned char BUFF_ZPR_KPSN_01h[BuffSize] = {0};
+unsigned char BUFF_ZPR_KPSN_02h[BuffSize] = {0};
+
+unsigned char BUFF_OTV_KPSN_01h[BuffSize] = {0};
+unsigned char BUFF_OTV_KPSN_02h[BuffSize] = {0};
 
 //Переменные с числом реально переданных/принятых бай
 DWORD dwZPR1; //переменная со значением реально переданных байтов по первому запросу
@@ -64,6 +69,12 @@ DWORD dwOTV4; //                                                по четвертому
 DWORD dwOTV5; //                                                по пятому
 
 DWORD dwOUT1; //                                                  по пятому
+
+DWORD dwZPR_KPSN_01h; //
+DWORD dwZPR_KPSN_02h; //
+
+DWORD dwOTV_KPSN_01h; //
+DWORD dwOTV_KPSN_02h; //
 
 //---------------------------------------------------------------------------
 //Функции, используемые при расчете CRC-кода:
@@ -240,11 +251,11 @@ void SETTINGCOM()
   else
   {
     //Выставляем таймауты!!!
-    tis.ReadIntervalTimeout = 1;            //RITO
-    tis.ReadTotalTimeoutMultiplier = 1;     //RTTM
-    tis.ReadTotalTimeoutConstant = 1;       //RTTC
-    tis.WriteTotalTimeoutMultiplier = 1;    //WTTM
-    tis.WriteTotalTimeoutConstant = 1;      //WTTC
+    tis.ReadIntervalTimeout = 1000;            //RITO
+    tis.ReadTotalTimeoutMultiplier = 0;     //RTTM
+    tis.ReadTotalTimeoutConstant = 0;       //RTTC
+    tis.WriteTotalTimeoutMultiplier = 0;    //WTTM
+    tis.WriteTotalTimeoutConstant = 0;      //WTTC
 
     if(!SetCommTimeouts(hCom, &tis))
     {
@@ -263,7 +274,10 @@ void WRITECOM(UCHAR *BFCOMTX, UCHAR TXLEN)
     COMERROR(0x05);
   else
      {
-     dwOUT1 = dwWrite;
+      //перепись текущего количества переданных данных в зависимости от
+      //текущего цикла в соответствующую переменную.
+      if (NCycle==1) {dwZPR_KPSN_01h = dwWrite;}
+      if (NCycle==2) {dwZPR_KPSN_02h = dwWrite;}
      }
 }
 
@@ -275,7 +289,10 @@ void READCOM(UCHAR *BFCOMRX, UCHAR RXLEN)
     COMERROR(0x06);
   else
      {
-     dwIN1 = dwRead;
+      //перепись текущего количества переданных данных в зависимости от
+      //текущего цикла в соответствующую переменную.
+      if (NCycle==1) {dwOTV_KPSN_01h = dwRead;}
+      if (NCycle==2) {dwOTV_KPSN_02h = dwRead;}
      }
 }
 

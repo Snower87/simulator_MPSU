@@ -11,6 +11,7 @@
 #include <CheckLst.hpp>
 #include <ExtCtrls.hpp>
 #include <jpeg.hpp>
+#include "ThreadComPort.h"
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -257,5 +258,6 @@ public:		// User declarations
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm1 *Form1;
+extern ThreadComPort *ThCom;
 //---------------------------------------------------------------------------
 #endif
